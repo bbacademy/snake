@@ -128,7 +128,7 @@ class SnakeGame {
 		if (typeof selector === 'string') {
 			this.el = document.querySelector(selector)
 			if (!this.el) throw 'no element found'
-		} if (selector instanceof HTMLElement) {
+		} else if (selector instanceof HTMLElement) {
 			this.el = selector
 		}
 		this.options = Object.assign({}, SnakeGame.defaultOptions, options)
