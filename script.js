@@ -4,7 +4,7 @@ const rows = 20
 const grid = 10
 
 const snake = []
-const step = { 
+const step = {
 	x: 0,
 	y: 0,
 	speed: 7
@@ -107,3 +107,52 @@ addEventListener('load', e => {
 	reset()
 	move()
 })
+
+class SnakeGame {
+	static defaultOptions = {
+		cols: 20,
+		rows: 20,
+		grid: 20
+	}
+	
+	state = []
+	speed = 7
+	food = { x: 0, y: 0 }
+	move = { x: 0, y: 0 }
+
+	get rows() { return this.options.rows }
+	get cols() { return this.options.cols }
+	get grid() { return this.options.grid }
+
+	constructor(selector, options) {
+		if (typeof selector === 'string') {
+			this.el = document.querySelector(selector)
+			if (!this.el) throw 'no element found'
+		} if (selector instanceof HTMLElement) {
+			this.el = selector
+		}
+		this.options = Object.assign({}, SnakeGame.defaultOptions, options)
+		this.canvas = document.createElement('canvas')
+		this.el.appendChild('canvas')
+		this.ctx = this.canvas.getContext('2d')
+		this.reset()
+	}
+	moveFood() {
+		const { rows, cols, state, food } = this
+		do {
+			food.x = rand(rows)
+			food.y = rand(cols)
+		} while (state.some(segment => equal(segment, food)))
+	}
+	reset() {
+		const { cols, rows, grid } = this
+		this.canvas.width = cols * grid + grid
+		this.canvas.height = rows * grid + grid
+		this.move.x = 0
+		this.move.y = 0
+		this.state.length = 0
+		this.moveFood()
+	}
+}
+
+const game = new SnakeGame('body')
