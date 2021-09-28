@@ -61,10 +61,10 @@ class SnakeGame {
 		const height = rows * grid + grid
 		const scaleX = window.innerWidth / width;
 		const scaleY = window.innerHeight / height;
+		canvas.style.transformOrigin = `0 0`
+		canvas.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')'
 		canvas.width = width
 		canvas.height = height
-		canvas.style.transformOrigin = `${width/2}px 0`;
-		canvas.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
 		move.x = 0
 		move.y = 0
 		state.length = 0
@@ -96,10 +96,10 @@ class SnakeGame {
 		ctx.fillStyle = "#fff"
 		ctx.fillRect(0, 0, cols * grid + grid, rows * grid + grid)
 		ctx.fillStyle = "#f00"
-		ctx.fillRect(scale(food.x), scale(food.y), grid-2, grid-2)
+		ctx.fillRect(scale(food.x), scale(food.y), grid - 2, grid - 2)
 		ctx.fillStyle = "#000"
 		state.forEach((segment, i) => {
-			ctx.fillRect(scale(segment.x), scale(segment.y), grid-2, grid-2)
+			ctx.fillRect(scale(segment.x), scale(segment.y), grid - 2, grid - 2)
 		})
 		requestAnimationFrame(this.draw)
 	}
