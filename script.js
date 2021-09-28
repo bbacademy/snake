@@ -197,4 +197,4 @@ class SnakeGame {
 	}
 }
 
-const game = new SnakeGame(document.body)
+const game = new SnakeGame('#root')
