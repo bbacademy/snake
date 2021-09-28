@@ -16,10 +16,9 @@ const food = {
 		do {
 			food.x = rand(rows)
 			food.y = rand(cols)
-		} while (snake.some(part => equal(part, food)))
+		} while (snake.some(segment => equal(segment, food)))
 	}
 }
-const ctx = container.getContext('2d')
 
 function rand(n) {
 	return Math.round(Math.random() * n)
@@ -65,28 +64,29 @@ function move() {
 }
 
 function draw() {
+	const ctx = container.getContext('2d')
 	ctx.clearRect(0, 0, cols * grid + grid, rows * grid + grid)
 	ctx.beginPath();
 	ctx.fillStyle = "#0000ff"
 	ctx.arc(scale(food.x), scale(food.y), grid / 2, 0, 2 * Math.PI)
 	ctx.fill()
-	snake.forEach((part, i) => {
+	snake.forEach((segment, i) => {
 		if (i == 0) {
 			ctx.beginPath();
 			ctx.setLineDash([3, grid - 3])
 			ctx.strokeStyle = '#000000'
 			ctx.lineWidth = grid - 2
 			ctx.lineCap = 'round'
-			ctx.moveTo(scale(part.x), scale(part.y))
+			ctx.moveTo(scale(segment.x), scale(segment.y))
 		} else {
-			ctx.lineTo(scale(part.x), scale(part.y))
+			ctx.lineTo(scale(segment.x), scale(segment.y))
 		}
 
 		if (i == snake.length - 1) {
 			ctx.stroke();
 			ctx.beginPath();
 			ctx.fillStyle = "#ff0000"
-			ctx.arc(scale(part.x), scale(part.y), grid / 2, 0, 2 * Math.PI)
+			ctx.arc(scale(segment.x), scale(segment.y), grid / 2, 0, 2 * Math.PI)
 			ctx.fill()
 		}
 	})
@@ -104,7 +104,6 @@ addEventListener('keydown', e => {
 addEventListener('load', e => {
 	container.width = cols * grid + grid
 	container.height = rows * grid + grid
-	container.style.border = '1px solid #000'
 	reset()
 	move()
 })
