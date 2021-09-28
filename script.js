@@ -12,9 +12,9 @@ class SnakeGame {
 	speed = 7
 	food = { x: 0, y: 0 }
 	move = { x: 1, y: 0 }
-	rows = 20
-	cols = 20
-	grid = 20
+	rows = 40
+	cols = 40
+	grid = 10
 
 	constructor(selector, options) {
 		if (typeof selector === 'string') {
