@@ -133,7 +133,7 @@ class SnakeGame {
 		}
 		this.options = Object.assign({}, SnakeGame.defaultOptions, options)
 		this.canvas = document.createElement('canvas')
-		this.el.appendChild('canvas')
+		this.el.appendChild(this.canvas)
 		this.ctx = this.canvas.getContext('2d')
 		this.reset()
 	}
