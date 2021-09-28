@@ -114,7 +114,7 @@ class SnakeGame {
 		rows: 20,
 		grid: 20
 	}
-	
+
 	state = []
 	speed = 7
 	food = { x: 0, y: 0 }
@@ -136,6 +136,7 @@ class SnakeGame {
 		this.el.appendChild(this.canvas)
 		this.ctx = this.canvas.getContext('2d')
 		this.reset()
+		setInterval(this.move, 1000 / this.speed)
 	}
 	moveFood() {
 		const { rows, cols, state, food } = this
@@ -152,6 +153,47 @@ class SnakeGame {
 		this.move.y = 0
 		this.state.length = 0
 		this.moveFood()
+	}
+	move = () => {
+		const { state, food } = this
+		const head = state.pop()
+		const next = { x: head.x + step.x, y: head.y + step.y }
+		if (!colision(next)) {
+			state.push(head)
+			state.push(next)
+			equal(next, food) ? food.move() : state.shift()
+		} else {
+			// alert('game over')
+			reset()
+		}
+		draw()
+	}
+	draw() {
+		const { ctx, cols, rows, grid, state } = this
+		ctx.clearRect(0, 0, cols * grid + grid, rows * grid + grid)
+		ctx.beginPath();
+		ctx.fillStyle = "#0000ff"
+		ctx.arc(scale(food.x), scale(food.y), grid / 2, 0, 2 * Math.PI)
+		ctx.fill()
+		state.forEach((segment, i) => {
+			if (i == 0) {
+				ctx.beginPath();
+				ctx.setLineDash([3, grid - 3])
+				ctx.strokeStyle = '#000000'
+				ctx.lineWidth = grid - 2
+				ctx.lineCap = 'round'
+				ctx.moveTo(scale(segment.x), scale(segment.y))
+			} else {
+				ctx.lineTo(scale(segment.x), scale(segment.y))
+			}
+			if (i == state.length - 1) {
+				ctx.stroke();
+				ctx.beginPath();
+				ctx.fillStyle = "#ff0000"
+				ctx.arc(scale(segment.x), scale(segment.y), grid / 2, 0, 2 * Math.PI)
+				ctx.fill()
+			}
+		})
 	}
 }
 
