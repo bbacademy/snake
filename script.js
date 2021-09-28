@@ -12,9 +12,9 @@ class SnakeGame {
 	speed = 7
 	food = { x: 0, y: 0 }
 	move = { x: 1, y: 0 }
-	rows = 40
-	cols = 40
-	grid = 10
+	rows = 20
+	cols = 20
+	grid = 20
 
 	constructor(selector, options) {
 		if (typeof selector === 'string') {
@@ -57,8 +57,14 @@ class SnakeGame {
 	}
 	reset() {
 		const { cols, rows, grid, move, state, canvas } = this
-		canvas.width = cols * grid + grid
-		canvas.height = rows * grid + grid
+		const width = cols * grid + grid
+		const height = rows * grid + grid
+		const scaleX = window.innerWidth / width;
+		const scaleY = window.innerHeight / height;
+		canvas.width = width
+		canvas.height = height
+		canvas.style.transformOrigin = `${width/2}px 0`;
+		canvas.style.transform = 'scale(' + Math.min(scaleX, scaleY) + ')';
 		move.x = 0
 		move.y = 0
 		state.length = 0
