@@ -29,6 +29,7 @@ class SnakeGame {
 		this.ctx = this.canvas.getContext('2d')
 		this.reset()
 		this.next()
+		this.draw()
 		addEventListener('keydown', this.handleKeypress)
 	}
 	handleKeypress = e => {
@@ -64,7 +65,7 @@ class SnakeGame {
 		state.push({ x: rand(cols), y: rand(rows) })
 		this.moveFood()
 	}
-	next() {
+	next = () => {
 		const { state, food, move, rows, cols } = this
 		const colision = n => state.some(i => equal(i, n))
 		const head = state.pop()
@@ -81,10 +82,9 @@ class SnakeGame {
 			// alert('game over')
 			this.reset()
 		}
-		this.draw()
-		this.timer = setTimeout(() => this.next(), 1000 / this.speed)
+		this.timer = setTimeout(this.next, 1000 / this.speed)
 	}
-	draw() {
+	draw = () => {
 		const { ctx, cols, rows, grid, state, food } = this
 		const scale = n => n * grid + 1
 		ctx.fillStyle = "#fff"
@@ -95,6 +95,7 @@ class SnakeGame {
 		state.forEach((segment, i) => {
 			ctx.fillRect(scale(segment.x), scale(segment.y), grid-2, grid-2)
 		})
+		requestAnimationFrame(this.draw)
 	}
 }
 
