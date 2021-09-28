@@ -155,4 +155,4 @@ class SnakeGame {
 	}
 }
 
-const game = new SnakeGame('body')
+const game = new SnakeGame(document.body)
